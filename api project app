@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple API App</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #e6f2ff; }
+    .container { max-width: 400px; margin: 4rem auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px #99c4ff33; }
+    label, input, button { display: block; margin-bottom: 1rem; width: 100%; }
+    button { background: #1976d2; color: #fff; border: none; padding: 1rem; border-radius: 6px; font-size: 1rem; cursor: pointer;}
+    #result { background: #f4faff; padding: 1rem; border-radius: 6px; margin-top: 1rem; min-height: 50px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>API Interface Demo</h2>
+    <label for="userInput">Enter Value:</label>
+    <input type="text" id="userInput" placeholder="e.g., city name">
+    <button id="apiBtn">Get API Data</button>
+    <div id="result"></div>
+  </div>
+  <script>
+    document.getElementById("apiBtn").onclick = function() {
+      var value = document.getElementById("userInput").value;
+      var result = document.getElementById("result");
+      result.innerHTML = "Loading...";
+      
+      // Example: Public API for demo (weather for London)
+      // Replace the URL with your own API endpoint and parameters!
+      fetch("https://api.openweathermap.org/data/2.5/weather?q=" + value + "&appid=YOUR_API_KEY&units=metric")
+        .then(res => res.json())
+        .then(data => {
+          if (data.main && data.weather) {
+            result.innerHTML = "<b>Temp:</b> " + data.main.temp + "°C<br>" +
+                               "<b>Weather:</b> " + data.weather[0].main;
+          } else {
+            result.innerHTML = "No data found for this value.";
+          }
+        })
+        .catch(() => result.innerHTML = "Error fetching API data");
+    }
+  </script>
+</body>
+</html>
