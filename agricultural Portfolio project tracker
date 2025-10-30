@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agri Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Farmer Portfolio</h1>
+    <nav>
+      <button onclick="showSection('about')">About</button>
+      <button onclick="showSection('crops')">Crops</button>
+      <button onclick="showSection('news')">News</button>
+      <button onclick="showSection('contact')">Contact</button>
+    </nav>
+    <div id="about" class="section">
+      <h2>About Me</h2>
+      <p>I am a passionate farmer specializing in organic crops. My farm focuses on sustainability and local global impact.</p>
+    </div>
+    <div id="crops" class="section" style="display:none;">
+      <h2>Crops & Products</h2>
+      <ul>
+        <li>Wheat</li>
+        <li>Rice</li>
+        <li>Tomato</li>
+        <li>Potato</li>
+        <li>Corn</li>
+      </ul>
+    </div>
+    <div id="news" class="section" style="display:none;">
+      <h2>Farm News & Events</h2>
+      <ul>
+        <li>Harvest Festival - Nov 10</li>
+        <li>Agri Workshop - Dec 15</li>
+      </ul>
+    </div>
+    <div id="contact" class="section" style="display:none;">
+      <h2>Contact</h2>
+      <form id="contactForm">
+        <label>Name:</label>
+        <input type="text" required>
+        <label>Email:</label>
+        <input type="email" required>
+        <label>Message:</label>
+        <textarea required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <div id="msg"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+body { font-family: Arial, sans-serif; background: #f4f9ef; }
+.container { max-width: 500px; margin: 3rem auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px #93d66b55;}
+h1 { color: #4a7c12; text-align: center;}
+nav { text-align: center; margin-bottom: 2rem;}
+nav button { background: #93d66b; color: #fff; border: none; padding: 12px 18px; margin: 0 10px; border-radius: 7px; cursor: pointer;}
+nav button:hover { background: #4a7c12;}
+.section { margin-bottom: 2rem; }
+ul { padding-left: 1.2rem;}
+form label, form input, form textarea, form button { display:block; width:100%; margin-bottom:1rem;}
+form button { background: #4a7c12; color: #fff; border: none; border-radius: 6px; padding: 0.8rem; cursor: pointer;}
+#msg { color: #4a7c12; font-weight: bold;}
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(
+    sec => sec.style.display = 'none'
+  );
+  document.getElementById(id).style.display = 'block';
+}
+
+document.getElementById('contactForm').onsubmit = function(e) {
+  e.preventDefault();
+  document.getElementById('msg').textContent = 'Message sent! (Demo only)';
+};
