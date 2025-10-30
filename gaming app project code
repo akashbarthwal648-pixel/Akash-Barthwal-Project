@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tic-Tac-Toe Game</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Tic-Tac-Toe Game</h2>
+    <div id="board"></div>
+    <p id="status"></p>
+    <button id="restartBtn">Restart</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+body { font-family: Arial, sans-serif; background: #e6f2ff; }
+.container { max-width: 400px; margin: 3rem auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 16px #91b4fd33; }
+h2 { color: #1976d2; text-align: center;}
+#board { display: grid; grid-template-columns: repeat(3, 80px); grid-gap: 7px; justify-content: center; margin: 2rem 0;}
+.cell { width: 80px; height: 80px; background: #f4faff; display: flex; align-items: center; justify-content: center; font-size: 2rem; border-radius: 6px; cursor: pointer; border: 2px solid #1976d2;}
+#status { text-align: center; font-weight: bold; color: #254089;}
+#restartBtn { display: block; margin: 1rem auto; padding: 0.8rem 2rem; background: #1976d2; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;}
+let board = ["","","","","","","","",""];
+let currentPlayer = "X";
+let gameActive = true;
+const winningCombos = [
+  [0,1,2],[3,4,5],[6,7,8], // rows
+  [0,3,6],[1,4,7],[2,5,8], // columns
+  [0,4,8],[2,4,6] // diagonals
+];
+
+function renderBoard() {
+  const boardDiv = document.getElementById("board");
+  boardDiv.innerHTML = "";
+  board.forEach((cell,i) => {
+    let div = document.createElement("div");
+    div.className = "cell";
+    div.textContent = cell;
+    div.onclick = () => cellClicked(i);
+    boardDiv.appendChild(div);
+  });
+}
+
+function cellClicked(i) {
+  if (!gameActive || board[i]) return;
+  board[i] = currentPlayer;
+  renderBoard();
+  checkResult();
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
+  document.getElementById("status").textContent = gameActive ? `${currentPlayer}'s turn` : "";
+}
+
+function checkResult() {
+  for (const combo of winningCombos) {
+    const [a, b, c] = combo;
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      gameActive = false;
+      document.getElementById("status").textContent = `${board[a]} wins!`;
+      return;
+    }
+  }
+  if (board.every(cell => cell)) {
+    gameActive = false;
+    document.getElementById("status").textContent = "Draw!";
+  }
+}
+
+document.getElementById("restartBtn").onclick = function() {
+  board = ["","","","","","","","",""];
+  currentPlayer = "X";
+  gameActive = true;
+  renderBoard();
+  document.getElementById("status").textContent = "X's turn";
+};
+
+renderBoard();
+document.getElementById("status").textContent = "X's turn";
